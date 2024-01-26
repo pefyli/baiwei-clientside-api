@@ -3,12 +3,7 @@ var router = express.Router();
 
 /* GET home page. localhost:3000/ */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
-
-/* GET localhost:3000/test */
-router.get('/test', function(req, res, next) {
-  res.send('This is localhost:3000/test')
+  res.render('index', { title: 'baiwei-clientside-api' });
 });
 
 module.exports = router;
