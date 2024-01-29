@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 const memberService = require('../services/memberService');
 const bcrypt = require('bcrypt');
-const moment = require('moment');
 const { StatusCode } = require('status-code-enum');
 
 //member authenication
@@ -12,13 +11,13 @@ router.post('/authenication', async(req, res) => {
     if(member) {
       bcrypt.compare(req.body.password, member.password).then((match) => {
         if(match) {
-          res.status(StatusCode.SuccessOK).json({ message: "Authorized" });
+          res.status(StatusCode.SuccessOK).send("Authorized");
         } else {
-          res.status(StatusCode.ClientErrorUnauthorized).json({ message: "Unauthorized" });
+          res.status(StatusCode.ClientErrorUnauthorized).send("Unauthorized");
         }
       });
     } else {
-      res.status(StatusCode.SuccessOK).json({ message: "Member not found" });
+      res.status(StatusCode.SuccessOK).send("Member not found");
     }
   } catch (error) {
     next(error);
@@ -31,16 +30,16 @@ router.post('/', (req, res, next) => {
     const saltRounds = 10;
     bcrypt.hash(req.body.password, saltRounds, async (err, hash) => {
       if (err) {
-        res.status(StatusCode.ServerErrorNotImplemented).json({ message: "Error when hashing password" });
+        res.status(StatusCode.ServerErrorNotImplemented).send("Error when hashing password");
       }
       const hasMember = await memberService.hasMember(req.body.account);
       if (!hasMember) {
         await memberService.addMember(req.body.member_name, req.body.account, hash, req.body.phone, req.body.address) 
         .then(() => {
-          res.status(StatusCode.SuccessCreated).json({ message: "Member created"});
+          res.status(StatusCode.SuccessCreated).send("Member created");
         })
         .catch((err) => {
-          res.status(StatusCode.ServerErrorInternal).json({ message: err.toString()});
+          res.status(StatusCode.ServerErrorInternal).send(err.toString());
         });
       } else {
         res.status(StatusCode.SuccessNoContent).send();
@@ -58,11 +57,21 @@ router.delete('/:member_id', async (req, res, next) => {
     if(member) {
       const deleted = await memberService.deleteMember(req.params.member_id);
       if(deleted) {
-        res.status(StatusCode.SuccessOK).json({ message: "Member deleted"});
+        res.status(StatusCode.SuccessOK).send("Member deleted");
       }
     } else {
       res.status(StatusCode.SuccessNoContent).send();
     }
+  } catch (error) {
+    next(error);
+  }
+});
+
+//member info update
+router.put('/:member_id', async (req, res, next) => {
+  try {
+    const member = await memberService.updateMemberInfo(req.params.member_id, req.body); 
+    res.status(StatusCode.SuccessOK).json({data: member});
   } catch (error) {
     next(error);
   }

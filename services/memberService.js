@@ -33,6 +33,7 @@ const findMember = async (account) => {
 
 const findMemberById = async (id) => {
     return await models.member.findOne({
+        attributes: { exclude: ['password'] },
         where: {
           member_id: id
         }
@@ -40,8 +41,17 @@ const findMemberById = async (id) => {
 }
 
 
-const updateMemberInfo = async () => {
+const updateMemberInfo = async (id, memberInfo) => {
+    let member = await findMemberById(id); 
+    member.set({
+      member_name: memberInfo.member_name,
+      account: memberInfo.account,
+      phone: memberInfo.phone,
+      address: memberInfo.address      
+    });
 
+    await member.save();
+    return await findMemberById(id);
 }
 
 const deleteMember = async (id) => {
