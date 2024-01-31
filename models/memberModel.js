@@ -1,9 +1,8 @@
-module.exports = function(sequelize, DataTypes) {
+module.exports = (sequelize, DataTypes) => {
   return sequelize.define('member', {
     member_id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
-      allowNull: false,
     },
     member_name: {
       type: DataTypes.STRING
