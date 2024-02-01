@@ -4,7 +4,7 @@
 baiwei-clientside-api is a Restful api service for BaiWei online shop to process client-side request.
 
 ## Tech-Stack
-Cryptocurrency_exchange_app uses a number of open source projects to work properly:
+baiwei-clientside-api uses a number of open source projects to work properly:
 
 - [Express](https://expressjs.com/)
 - [Sequelize](https://sequelize.org/)
