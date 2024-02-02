@@ -77,4 +77,20 @@ router.put('/:member_id', async (req, res, next) => {
   }
 });
 
+//member password update
+router.put('/:member_id/password', async (req, res, next) => {
+  try {
+    const saltRounds = 10;
+    bcrypt.hash(req.body.password, saltRounds, async (err, hash) => {
+      if (err) {
+        res.status(StatusCode.ServerErrorNotImplemented).send("Error when hashing password");
+      }
+      await memberService.updatePassword(req.params.member_id, hash);
+      res.status(StatusCode.SuccessNoContent).send();
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

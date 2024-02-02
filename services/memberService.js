@@ -58,11 +58,20 @@ const deleteMember = async (id) => {
     return await models.member.destroy({ where: { member_id: id } }); 
 }
 
+const updatePassword = async (id, newPassword) => {
+    await models.member.update({ password: newPassword },{ 
+        where: { 
+            member_id: id } 
+        }
+    )
+}
+
 module.exports = {
     addMember,
     hasMember,
     findMember,
     updateMemberInfo,
     deleteMember,
-    findMemberById
+    findMemberById,
+    updatePassword
 };
