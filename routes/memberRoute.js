@@ -60,7 +60,7 @@ router.delete('/:member_id', async (req, res, next) => {
         res.status(StatusCode.SuccessOK).send("Member deleted");
       }
     } else {
-      res.status(StatusCode.SuccessNoContent).send();
+      res.status(StatusCode.ServerErrorInternal).send("Member not found")
     }
   } catch (error) {
     next(error);
@@ -72,6 +72,22 @@ router.put('/:member_id', async (req, res, next) => {
   try {
     const member = await memberService.updateMemberInfo(req.params.member_id, req.body); 
     res.status(StatusCode.SuccessOK).json({data: member});
+  } catch (error) {
+    next(error);
+  }
+});
+
+//member password update
+router.put('/:member_id/password', async (req, res, next) => {
+  try {
+    const saltRounds = 10;
+    bcrypt.hash(req.body.password, saltRounds, async (err, hash) => {
+      if (err) {
+        res.status(StatusCode.ServerErrorNotImplemented).send("Error when hashing password");
+      }
+      await memberService.updatePassword(req.params.member_id, hash);
+      res.status(StatusCode.SuccessNoContent).send();
+    });
   } catch (error) {
     next(error);
   }
