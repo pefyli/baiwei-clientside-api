@@ -60,7 +60,7 @@ router.delete('/:member_id', async (req, res, next) => {
         res.status(StatusCode.SuccessOK).send("Member deleted");
       }
     } else {
-      res.status(StatusCode.SuccessNoContent).send();
+      res.status(StatusCode.ServerErrorInternal).send("Member not found")
     }
   } catch (error) {
     next(error);
