@@ -9,7 +9,6 @@ const addMember = async (member_name, account, hash, phone, address) => {
         phone: phone,
         address: address,
         role_id: 1,
-        discount_id: null,
         create_datetime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
         picture: null
     });

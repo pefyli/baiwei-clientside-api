@@ -88,6 +88,16 @@ router.put('/:member_id', async (req, res, next) => {
   }
 });
 
+//get member info
+router.get('/:member_id', async (req, res, next) => {
+  try {
+    const member = await memberService.findMemberById(req.params.member_id); 
+    res.status(StatusCode.SuccessOK).json({data: member});
+  } catch (error) {
+    next(error);
+  }
+});
+
 //member password update
 router.put('/:member_id/password', async (req, res, next) => {
   try {
