@@ -26,9 +26,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false
     },
-    discount_id: {
-      type: DataTypes.INTEGER
-    },
     create_datetime: {
       type: DataTypes.STRING,
       allowNull: false
