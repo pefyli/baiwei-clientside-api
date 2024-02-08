@@ -7,6 +7,8 @@ const { StatusCode } = require('status-code-enum');
 
 var memberRouter = require('./routes/memberRoute');
 var indexRouter = require('./routes/indexRoute');
+var promotionRouter = require('./routes/promotionRoute');
+var cartRouter = require('./routes/cartRoute');
 
 var app = express();
 
@@ -22,6 +24,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/member', memberRouter);
+app.use('/promotion', promotionRouter);
+app.use('/cart', cartRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

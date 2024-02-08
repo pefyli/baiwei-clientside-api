@@ -9,9 +9,10 @@ router.post('/authenication', async(req, res) => {
   try{
     const member = await memberService.findMember(req.body.account);
     if(member) {
-      bcrypt.compare(req.body.password, member.password).then((match) => {
+      bcrypt.compare(req.body.password, member.password).then(async (match) => {
         if(match) {
-          res.status(StatusCode.SuccessOK).send("Authorized");
+          let memberInfo = await memberService.findMemberById(member.member_id);
+          res.status(StatusCode.SuccessOK).json({data: memberInfo});
         } else {
           res.status(StatusCode.ClientErrorUnauthorized).send("Unauthorized");
         }
@@ -50,6 +51,16 @@ router.post('/', (req, res, next) => {
     }
 });
 
+//get Member info
+router.get('/:member_id', async (req, res, next) => {
+  try {
+    const member = await memberService.findMemberById(req.params.member_id); 
+    res.status(StatusCode.SuccessOK).json({data: member});
+  } catch (error) {
+    next(error);
+  }
+});
+
 //member deletion
 router.delete('/:member_id', async (req, res, next) => {
   try {
@@ -71,6 +82,16 @@ router.delete('/:member_id', async (req, res, next) => {
 router.put('/:member_id', async (req, res, next) => {
   try {
     const member = await memberService.updateMemberInfo(req.params.member_id, req.body); 
+    res.status(StatusCode.SuccessOK).json({data: member});
+  } catch (error) {
+    next(error);
+  }
+});
+
+//get member info
+router.get('/:member_id', async (req, res, next) => {
+  try {
+    const member = await memberService.findMemberById(req.params.member_id); 
     res.status(StatusCode.SuccessOK).json({data: member});
   } catch (error) {
     next(error);
