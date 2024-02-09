@@ -4,6 +4,9 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const { StatusCode } = require('status-code-enum');
+var swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('./swagger_output');
+const cors = require('cors');
 
 var memberRouter = require('./routes/memberRoute');
 var indexRouter = require('./routes/indexRoute');
@@ -11,6 +14,12 @@ var promotionRouter = require('./routes/promotionRoute');
 var cartRouter = require('./routes/cartRoute');
 
 var app = express();
+
+//api doc
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+//enable cors
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
