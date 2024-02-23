@@ -14,6 +14,7 @@ var promotionRouter = require('./routes/promotionRoute');
 var cartRouter = require('./routes/cartRoute');
 
 var app = express();
+const apiPrefix = '/baiwei-clientside-api';
 
 //api doc
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
@@ -31,10 +32,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/member', memberRouter);
-app.use('/promotion', promotionRouter);
-app.use('/cart', cartRouter);
+app.use(`${apiPrefix}/`, indexRouter);
+app.use(`${apiPrefix}/member`, memberRouter);
+app.use(`${apiPrefix}/promotion`, promotionRouter);
+app.use(`${apiPrefix}/cart`, cartRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
