@@ -14,7 +14,7 @@ var promotionRouter = require('./routes/promotionRoute');
 var cartRouter = require('./routes/cartRoute');
 
 var app = express();
-const apiPrefix = '/baiwei-clientside-api';
+const apiPrefix = '/baiwei-clientside-api/api';
 
 //api doc
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
