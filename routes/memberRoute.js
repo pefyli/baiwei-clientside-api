@@ -43,7 +43,7 @@ router.post('/', (req, res, next) => {
           res.status(StatusCode.ServerErrorInternal).send(err.toString());
         });
       } else {
-        res.status(StatusCode.SuccessNoContent).send();
+        res.status(StatusCode.SuccessOK).send();
       }
     });
     } catch (error) {
