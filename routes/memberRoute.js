@@ -18,7 +18,7 @@ router.post('/authenication', async(req, res) => {
         }
       });
     } else {
-      res.status(StatusCode.SuccessOK).send("Member not found");
+      res.status(StatusCode.ClientErrorNotFound).send("Member not found");
     }
   } catch (error) {
     next(error);
