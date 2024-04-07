@@ -12,6 +12,7 @@ var memberRouter = require('./routes/memberRoute');
 var indexRouter = require('./routes/indexRoute');
 var promotionRouter = require('./routes/promotionRoute');
 var cartRouter = require('./routes/cartRoute');
+var productRouter = require('./routes/productRoute');
 
 var app = express();
 const apiPrefix = '/baiwei-clientside-api/api';
@@ -36,6 +37,7 @@ app.use(`${apiPrefix}/`, indexRouter);
 app.use(`${apiPrefix}/member`, memberRouter);
 app.use(`${apiPrefix}/promotion`, promotionRouter);
 app.use(`${apiPrefix}/cart`, cartRouter);
+app.use(`${apiPrefix}/product`, productRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
