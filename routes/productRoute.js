@@ -5,11 +5,20 @@ const { StatusCode } = require('status-code-enum');
 
 router.get('/', async (req, res, next) => {
     try {
-      const productList = await productService.getProduct(); 
+      const productList = await productService.getAllProducts(); 
       res.status(StatusCode.SuccessOK).json({data: productList});
     } catch (error) {
       next(error);
     }
+});
+
+router.get('/:product_id', async (req, res, next) => {
+  try {
+    const product = await productService.findProductById(req.params.product_id); 
+    res.status(StatusCode.SuccessOK).json({data: product});
+  } catch (error) {
+    next(error);
+  }
 });
 
 //ambiguously search product with product name

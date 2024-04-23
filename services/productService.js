@@ -1,8 +1,17 @@
 var models  = require('../models/db');
 const { Op } = require('sequelize');
 
-const getProduct = async () => {
+const getAllProducts = async () => {
   return await models.product.findAll();
+}
+
+const findProductById = async (product_id) => {
+  let product = await models.product.findOne({
+    where: {
+      product_id: product_id
+    }
+  });
+  return product;
 }
 
 const searchProduct = async (searchTerm) => {
@@ -17,6 +26,7 @@ const searchProduct = async (searchTerm) => {
 }
 
 module.exports = {
-  getProduct,
-  searchProduct
+  getAllProducts,
+  searchProduct,
+  findProductById
 };
