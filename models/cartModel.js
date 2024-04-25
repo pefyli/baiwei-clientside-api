@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    return sequelize.define('cart', {
+    const cart = sequelize.define('cart', {
       cart_id: {
         type: DataTypes.INTEGER,
         primaryKey: true
@@ -27,4 +27,10 @@ module.exports = (sequelize, DataTypes) => {
     }, {
       tableName: 'cart'
     });
+    
+  cart.associate = models => {
+    cart.belongsTo(models.product, { foreignKey: 'product_id' });
   };
+
+  return cart; 
+};

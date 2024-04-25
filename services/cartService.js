@@ -15,8 +15,18 @@ const addProductToCart = async (member_id, product_id, amount) => {
 const findCartByMember = async (member_id) => {
     return await models.cart.findAll({
         where: {
-          member_id: member_id
-        }
+            member_id: member_id
+          },
+          include: [{
+            model: models.product,
+            attributes: ['price', 'product_name'], // Select specific attributes from Product model
+            required: false, // Use false for left join behavior
+            where: {
+                // Additional condition to ensure the join condition
+               'product_id': { [models.Op.col]: 'cart.product_id' } // Equivalent to c.product_id = p.product_id
+            }
+          }],
+        attributes: ['member_id', 'product_id', 'cart_id'] // Select specific attributes from Cart model
     });
 }
 

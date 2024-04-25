@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    return sequelize.define('product', {
+  const product = sequelize.define('product', {
       product_id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -34,4 +34,6 @@ module.exports = (sequelize, DataTypes) => {
     }, {
       tableName: 'product'
     });
-  };
+
+  return product;
+};
