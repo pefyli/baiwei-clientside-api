@@ -19,14 +19,33 @@ const findCartByMember = async (member_id) => {
           },
           include: [{
             model: models.product,
-            attributes: ['price', 'product_name'], // Select specific attributes from Product model
+            attributes: ['product_id', 'category_id', 'product_name', 'price', 'inventory_quantity'], // Select specific attributes from Product model
             required: false, // Use false for left join behavior
             where: {
                 // Additional condition to ensure the join condition
                'product_id': { [models.Op.col]: 'cart.product_id' } // Equivalent to c.product_id = p.product_id
             }
           }],
-        attributes: ['member_id', 'product_id', 'cart_id'] // Select specific attributes from Cart model
+        attributes: ['member_id', 'cart_id', 'amount', 'create_datetime', 'update_datetime'] // Select specific attributes from Cart model
+    });
+}
+
+const findCartByMemberAndProduct = async (member_id, product_id) => {
+    return await models.cart.findAll({
+        where: {
+            member_id: member_id,
+            product_id: product_id
+          },
+          include: [{
+            model: models.product,
+            attributes: ['product_id', 'category_id', 'product_name', 'price', 'inventory_quantity'], // Select specific attributes from Product model
+            required: false, // Use false for left join behavior
+            where: {
+                // Additional condition to ensure the join condition
+               'product_id': { [models.Op.col]: 'cart.product_id' } // Equivalent to c.product_id = p.product_id
+            }
+          }],
+        attributes: ['member_id', 'cart_id', 'amount', 'create_datetime', 'update_datetime'] // Select specific attributes from Cart model
     });
 }
 
@@ -39,7 +58,7 @@ const findCartProductByMember = async (product_id, member_id) => {
     });
 }
 
-const updateCartInfoForSingleProduct = async (product_id, member_id, amount) => {
+const updateProductByMember = async (product_id, member_id, amount) => {
     let cart = await findCartProductByMember(product_id, member_id); 
     cart.set({
         amount: amount,
@@ -71,7 +90,8 @@ module.exports = {
     addProductToCart,
     findCartByMember,
     findCartProductByMember,
-    updateCartInfoForSingleProduct,
+    findCartByMemberAndProduct,
+    updateProductByMember,
     deleteCartProduct,
     deleteAllCartProduct
 };

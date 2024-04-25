@@ -24,7 +24,7 @@ router.post('/:member_id', async (req, res, next) => {
           res.status(StatusCode.SuccessCreated).json({data: response});
         } else {
           let updAmount = parseInt(cart.amount) + parseInt(req.body.amount);
-          let response = await cartService.updateCartInfoForSingleProduct(req.body.product_id, req.params.member_id, updAmount);
+          let response = await cartService.updateProductByMember(req.body.product_id, req.params.member_id, updAmount);
           res.status(StatusCode.SuccessOK).json({data: response});
         }
     } catch (error) {
@@ -69,8 +69,9 @@ router.delete('/:member_id/:product_id', async (req, res, next) => {
 //update cart info for single product
 router.put('/:member_id/:product_id', async (req, res, next) => {
     try {
-      const cart = await cartService.updateCartInfoForSingleProduct(req.params.product_id, req.params.member_id, req.body.amount); 
-      res.status(StatusCode.SuccessOK).json({data: cart});
+      const cart = await cartService.updateProductByMember(req.params.product_id, req.params.member_id, req.body.amount); 
+      const memberProductCart = await cartService.findCartByMemberAndProduct(req.params.member_id, cart.product_id); 
+      res.status(StatusCode.SuccessOK).json({data: memberProductCart});
     } catch (error) {
       next(error);
     }
