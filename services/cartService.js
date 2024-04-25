@@ -58,6 +58,14 @@ const findCartProductByMember = async (product_id, member_id) => {
     });
 }
 
+const findCartById = async (cart_id) => {
+    return await models.cart.findOne({
+        where: {
+          cart_id: cart_id,
+        }
+    });
+}
+
 const updateProductByMember = async (product_id, member_id, amount) => {
     let cart = await findCartProductByMember(product_id, member_id); 
     cart.set({
@@ -69,11 +77,10 @@ const updateProductByMember = async (product_id, member_id, amount) => {
     return await findCartProductByMember(product_id, member_id);
 }
 
-const deleteCartProduct = async (product_id, member_id) => {
+const deleteCart = async (cart_id) => {
     return await models.cart.destroy({ 
         where: { 
-            member_id: member_id,
-            product_id: product_id
+            cart_id: cart_id,
         } 
     }); 
 }
@@ -92,6 +99,7 @@ module.exports = {
     findCartProductByMember,
     findCartByMemberAndProduct,
     updateProductByMember,
-    deleteCartProduct,
-    deleteAllCartProduct
+    deleteCart,
+    deleteAllCartProduct,
+    findCartById
 };
