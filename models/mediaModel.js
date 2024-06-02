@@ -1,18 +1,22 @@
 module.exports = (sequelize, DataTypes) => {
-    const cart = sequelize.define('cart', {
-      cart_id: {
+    return sequelize.define('product_media', {
+      product_media_id: {
         type: DataTypes.INTEGER,
-        primaryKey: true
+        primaryKey: true,
       },
-      member_id: {
-        type: DataTypes.INTEGER,
+      product_media: {
+        type: DataTypes.BLOB('long'), // Storing the file as a BLOB
         allowNull: false
       },
       product_id: {
         type: DataTypes.INTEGER,
         allowNull: false
       },
-      amount: {
+      media_type: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      display_location: {
         type: DataTypes.INTEGER,
         allowNull: false
       },
@@ -25,12 +29,6 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       }
     }, {
-      tableName: 'cart'
+      tableName: 'product_media'
     });
-    
-  cart.associate = models => {
-    cart.belongsTo(models.product, { foreignKey: 'product_id' });
   };
-
-  return cart; 
-};

@@ -1,39 +1,39 @@
 module.exports = (sequelize, DataTypes) => {
-  const promotion = sequelize.define('promotion', {
-      promotion_id: {
+  const product = sequelize.define('product', {
+      product_id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
       },
-      member_id: {
+      category_id: {
         type: DataTypes.INTEGER,
         allowNull: false
       },
-      type: {
+      product_name: {
         type: DataTypes.STRING,
         allowNull: false
       },
-      infect_area: {
+      price: {
         type: DataTypes.STRING,
         allowNull: false
       },
-      given_datetime: {
+      product_description: {
         type: DataTypes.STRING,
         allowNull: false
       },
-      expire_datetime: {
+      inventory_quantity: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
+      create_datetime: {
         type: DataTypes.STRING
       },
-      discount_percentage: {
+      update_datetime: {
         type: DataTypes.STRING,
         allowNull: false
       },
-      status: {
-        type: DataTypes.INTEGER,
-        allowNull: false
-      }
     }, {
-      tableName: 'promotion'
+      tableName: 'product'
     });
-  
-  return promotion;
+
+  return product;
 };
