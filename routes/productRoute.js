@@ -21,6 +21,15 @@ router.get('/:product_id', async (req, res, next) => {
   }
 });
 
+router.get('/:product_id/item', async (req, res, next) => {
+  try {
+    const items = await productService.findItemsByAssociateProductId(req.params.product_id); 
+    res.status(StatusCode.SuccessOK).json({data: items});
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get('/:product_id/media', async (req, res, next) => {
   try {
     const mediaList = await productService.findProductMediaById(req.params.product_id); 

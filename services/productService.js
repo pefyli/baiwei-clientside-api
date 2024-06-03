@@ -34,9 +34,24 @@ const searchProduct = async (searchTerm) => {
   return productList;
 }
 
+const findItemsByAssociateProductId = async (product_id) => {
+  return await models.product.findAll({
+    where: {
+      product_id: product_id
+    },
+    include: [{
+      model: models.item,
+      attributes: ['item_id', 'quantity', 'spec', 'color', 'price', 'create_datetime', 'update_datetime'], // Select specific attributes from Item model
+      required: false // Use false for left join behavior
+    }],
+    attributes: ['product_id', 'category_id', 'product_name'] // Select specific attributes from Product model
+  });
+}
+
 module.exports = {
   getAllProducts,
   searchProduct,
   findProductById,
-  findProductMediaById
+  findProductMediaById,
+  findItemsByAssociateProductId
 };

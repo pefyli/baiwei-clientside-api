@@ -12,16 +12,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false
       },
-      price: {
-        type: DataTypes.STRING,
-        allowNull: false
-      },
       product_description: {
         type: DataTypes.STRING,
-        allowNull: false
-      },
-      inventory_quantity: {
-        type: DataTypes.INTEGER,
         allowNull: false
       },
       create_datetime: {
@@ -35,5 +27,8 @@ module.exports = (sequelize, DataTypes) => {
       tableName: 'product'
     });
 
+  product.associate = models => {
+    models.product.hasMany(models.item, { foreignKey: 'product_id' });
+  };  
   return product;
 };

@@ -19,7 +19,7 @@ const findCartByMember = async (member_id) => {
           },
           include: [{
             model: models.product,
-            attributes: ['product_id', 'category_id', 'product_name', 'price', 'inventory_quantity'], // Select specific attributes from Product model
+            attributes: ['product_id', 'category_id', 'product_name'], // Select specific attributes from Product model
             required: false, // Use false for left join behavior
             where: {
                 // Additional condition to ensure the join condition
@@ -38,7 +38,7 @@ const findCartByMemberAndProduct = async (member_id, product_id) => {
           },
           include: [{
             model: models.product,
-            attributes: ['product_id', 'category_id', 'product_name', 'price', 'inventory_quantity'], // Select specific attributes from Product model
+            attributes: ['product_id', 'category_id', 'product_name'], // Select specific attributes from Product model
             required: false, // Use false for left join behavior
             where: {
                 // Additional condition to ensure the join condition
