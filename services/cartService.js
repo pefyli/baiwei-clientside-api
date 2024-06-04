@@ -39,11 +39,7 @@ const findCartByMemberAndProduct = async (member_id, product_id) => {
           include: [{
             model: models.product,
             attributes: ['product_id', 'category_id', 'product_name'], // Select specific attributes from Product model
-            required: false, // Use false for left join behavior
-            where: {
-                // Additional condition to ensure the join condition
-               'product_id': { [models.Op.col]: 'cart.product_id' } // Equivalent to c.product_id = p.product_id
-            }
+            required: false, // Use false for left join behavior    
           }],
         attributes: ['member_id', 'cart_id', 'amount', 'create_datetime', 'update_datetime'] // Select specific attributes from Cart model
     });
