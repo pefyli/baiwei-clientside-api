@@ -44,7 +44,7 @@ const findItemsByAssociateProductId = async (product_id) => {
       attributes: ['item_id', 'quantity', 'spec', 'color', 'price', 'create_datetime', 'update_datetime'], // Select specific attributes from Item model
       required: false // Use false for left join behavior
     }],
-    attributes: ['product_id', 'category_id', 'product_name'] // Select specific attributes from Product model
+    attributes: ['product_id', 'category_id', 'product_name', 'product_description', 'create_datetime', 'update_datetime'] // Select specific attributes from Product model
   });
 }
 
