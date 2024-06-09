@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-    return sequelize.define('product_media', {
+    const product_media = sequelize.define('product_media', {
       product_media_id: {
         type: DataTypes.INTEGER,
         primaryKey: true,
@@ -31,4 +31,9 @@ module.exports = (sequelize, DataTypes) => {
     }, {
       tableName: 'product_media'
     });
+
+    product_media.associate = models => {
+      product_media.belongsTo(models.product, { foreignKey: 'product_id' });
+    };
+    return product_media;
   };

@@ -12,6 +12,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false
       },
+      item_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
       amount: {
         type: DataTypes.INTEGER,
         allowNull: false
@@ -30,6 +34,8 @@ module.exports = (sequelize, DataTypes) => {
     
   cart.associate = models => {
     cart.belongsTo(models.product, { foreignKey: 'product_id' });
+    cart.belongsTo(models.member, { foreignKey: 'member_id' });
+    cart.belongsTo(models.item, { foreignKey: 'item_id' });
   };
 
   return cart; 

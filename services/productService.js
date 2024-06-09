@@ -2,7 +2,14 @@ var models  = require('../models/db');
 const { Op } = require('sequelize');
 
 const getAllProducts = async () => {
-  return await models.product.findAll();
+  return await models.product.findAll({
+    include: [{
+      model: models.item,
+      attributes: ['item_id', 'quantity', 'spec', 'color', 'price'], // Select specific attributes from Item model
+      required: false // Use false for left join behavior
+    }],
+    attributes: ['product_id', 'category_id', 'product_name', 'product_description', 'create_datetime', 'update_datetime'] // Select specific attributes from Product model
+  });
 }
 
 const findProductById = async (product_id) => {
@@ -35,7 +42,7 @@ const searchProduct = async (searchTerm) => {
 }
 
 const findItemsByAssociateProductId = async (product_id) => {
-  return await models.product.findAll({
+  return await models.product.findOne({
     where: {
       product_id: product_id
     },
@@ -48,10 +55,21 @@ const findItemsByAssociateProductId = async (product_id) => {
   });
 }
 
+const findItem = async (item_id) => {
+  return await models.item.findOne({
+    where: {
+      item_id: item_id
+    },
+    attributes: ['item_id', 'product_id', 'quantity', 'spec', 'color', 'price', 'create_datetime', 'update_datetime'] // Select specific attributes from Product model
+  });
+}
+
+
 module.exports = {
   getAllProducts,
   searchProduct,
   findProductById,
   findProductMediaById,
-  findItemsByAssociateProductId
+  findItemsByAssociateProductId,
+  findItem
 };
