@@ -18,13 +18,13 @@ router.post('/', async (req, res, next) => {
     try {
         //we should identify if there are any duplicate products in cart
         //if yes, accumulate the amount, if no, add to the cart.
-        let cart = await cartService.findCartProductByMember(req.body.product_id, req.body.member_id);
+        let cart = await cartService.findCartProductItemByMember(req.body.item_id, req.body.member_id);
         if(cart == null) {
-          let response = await cartService.addProductToCart(req.body.member_id, req.body.product_id, req.body.amount);
+          let response = await cartService.addProductToCart(req.body.member_id, req.body.product_id, req.body.item_id, req.body.amount);
           res.status(StatusCode.SuccessCreated).json({data: response});
         } else {
           let updAmount = parseInt(cart.amount) + parseInt(req.body.amount);
-          let response = await cartService.updateProductByMember(req.body.product_id, req.body.member_id, updAmount);
+          let response = await cartService.updateCartByMember(req.body.item_id, req.body.member_id, updAmount);
           res.status(StatusCode.SuccessOK).json({data: response});
         }
     } catch (error) {
@@ -69,9 +69,9 @@ router.delete('/:cart_id', async (req, res, next) => {
 //update cart info for single product
 router.put('/:cart_id', async (req, res, next) => {
     try {
-      const cart = await cartService.updateProductByMember(req.body.product_id, req.body.member_id, req.body.amount); 
-      const memberProductCart = await cartService.findCartByMemberAndProduct(req.body.member_id, cart.product_id); 
-      res.status(StatusCode.SuccessOK).json({data: memberProductCart});
+      const cart = await cartService.updateCartByMember(req.body.item_id, req.body.member_id, req.body.amount); 
+      const memberItemCart = await cartService.findMemberCartByItemId(req.body.member_id, cart.item_id); 
+      res.status(StatusCode.SuccessOK).json({data: memberItemCart});
     } catch (error) {
       next(error);
     }

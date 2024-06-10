@@ -1,22 +1,26 @@
 module.exports = (sequelize, DataTypes) => {
-    const cart = sequelize.define('cart', {
-      cart_id: {
+    const item = sequelize.define('item', {
+      item_id: {
         type: DataTypes.INTEGER,
         primaryKey: true
-      },
-      member_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false
       },
       product_id: {
         type: DataTypes.INTEGER,
         allowNull: false
       },
-      item_id: {
+      quantity: {
         type: DataTypes.INTEGER,
         allowNull: false
       },
-      amount: {
+      spec: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      color: {
+        type: DataTypes.STRING,
+        allowNull: false
+      },
+      price: {
         type: DataTypes.INTEGER,
         allowNull: false
       },
@@ -29,14 +33,13 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       }
     }, {
-      tableName: 'cart'
+      tableName: 'item'
     });
     
-  cart.associate = models => {
-    cart.belongsTo(models.product, { foreignKey: 'product_id' });
-    cart.belongsTo(models.member, { foreignKey: 'member_id' });
-    cart.belongsTo(models.item, { foreignKey: 'item_id' });
+  item.associate = models => {
+    item.hasMany(models.cart, { foreignKey: 'item_id' });
+    item.belongsTo(models.product, { foreignKey: 'product_id' });
   };
 
-  return cart; 
+  return item; 
 };
