@@ -10,7 +10,7 @@ const addProductToCart = async (member_id, product_id, item_id, amount) => {
         create_datetime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss'),
         update_datetime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')
     });
-    return findCartProductItemByMember(product_id, item_id, member_id);
+    return findCartProductItemByMember(item_id, member_id);
 }
 
 const findCartByMember = async (member_id) => {
@@ -28,11 +28,11 @@ const findCartByMember = async (member_id) => {
     });
 }
 
-const findCartByMemberAndProduct = async (member_id, product_id) => {
+const findMemberCartByItemId = async (member_id, item_id) => {
     return await models.cart.findAll({
         where: {
             member_id: member_id,
-            product_id: product_id
+            item_id: item_id
           },
           include: [{
             model: models.product,
@@ -43,11 +43,10 @@ const findCartByMemberAndProduct = async (member_id, product_id) => {
     });
 }
 
-const findCartProductItemByMember = async (product_id, item_id, member_id) => {
+const findCartProductItemByMember = async (item_id, member_id) => {
     return await models.cart.findOne({
         where: {
           member_id: member_id,
-          product_id: product_id,
           item_id: item_id
         }
     });
@@ -61,15 +60,15 @@ const findCartById = async (cart_id) => {
     });
 }
 
-const updateProductByMember = async (product_id, member_id, amount) => {
-    let cart = await findCartProductByMember(product_id, member_id); 
+const updateCartByMember = async (item_id, member_id, amount) => {
+    let cart = await findCartProductItemByMember(item_id, member_id); 
     cart.set({
         amount: amount,
         update_datetime: moment(new Date()).format('YYYY-MM-DD HH:mm:ss')   
     });
 
     await cart.save();
-    return await findCartProductByMember(product_id, member_id);
+    return await findCartProductItemByMember(item_id, member_id);
 }
 
 const deleteCart = async (cart_id) => {
@@ -92,8 +91,8 @@ module.exports = {
     addProductToCart,
     findCartByMember,
     findCartProductItemByMember,
-    findCartByMemberAndProduct,
-    updateProductByMember,
+    findMemberCartByItemId,
+    updateCartByMember,
     deleteCart,
     deleteAllCartProduct,
     findCartById
