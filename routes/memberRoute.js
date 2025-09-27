@@ -18,7 +18,7 @@ router.post('/authenication', async(req, res) => {
         }
       });
     } else {
-      res.status(StatusCode.SuccessOK).send("Member not found");
+      res.status(StatusCode.ClientErrorNotFound).send("Member not found");
     }
   } catch (error) {
     next(error);
@@ -43,7 +43,7 @@ router.post('/', (req, res, next) => {
           res.status(StatusCode.ServerErrorInternal).send(err.toString());
         });
       } else {
-        res.status(StatusCode.SuccessNoContent).send();
+        res.status(StatusCode.SuccessOK).send();
       }
     });
     } catch (error) {

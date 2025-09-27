@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  return sequelize.define('member', {
+  const member = sequelize.define('member', {
     member_id: {
       type: DataTypes.INTEGER,
       primaryKey: true
@@ -33,4 +33,10 @@ module.exports = (sequelize, DataTypes) => {
   }, {
     tableName: 'member'
   });
+  
+  member.associate = models => {
+    member.hasOne(models.cart, { foreignKey: 'member_id' });
+  };
+
+  return member;
 };
